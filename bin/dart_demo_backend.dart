@@ -10,7 +10,7 @@ void main(List<String> arguments) async {
 
   app.post('/signup', lib.signup);
 
-  var server = await shelf_io.serve(app, 'ec2-13-234-119-31.ap-south-1.compute.amazonaws.com', 8080);
+  var server = await shelf_io.serve(app, 'ec2-13-234-136-242.ap-south-1.compute.amazonaws.com', 8080);
 
   // Enable content compression
   server.autoCompress = true;

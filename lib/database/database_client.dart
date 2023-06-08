@@ -17,11 +17,11 @@ class DatabaseClient {
     return _db!;
   }
 
-  Future<User?> findUserByUsername(String username) async {
+  Future<User?> findUserByEmail(String email) async {
     Db db = await database;
 
     Map<String, dynamic>? data = await db.collection("users").findOne(
-      where.eq("username", username)
+      where.eq("email", email)
     );
 
     if (data != null) {
@@ -29,7 +29,7 @@ class DatabaseClient {
       return User(
         id: (data["_id"] as ObjectId).$oid, 
         name: data["name"], 
-        username: data["username"], 
+        email: data["email"], 
         password: data["password"]
       );
     }
@@ -40,14 +40,14 @@ class DatabaseClient {
 
   Future<void> addUser({
     required String name,
-    required String username,
+    required String email,
     required String password
   }) async {
     Db db = await database;
 
     await db.collection("users").insert({
       "name": name,
-      "username": username,
+      "email": email,
       "password": password
     });
   }

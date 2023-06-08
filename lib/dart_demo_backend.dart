@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:bcrypt/bcrypt.dart';
-import 'package:dart_demo_backend/database_client.dart';
+import 'package:dart_demo_backend/database/database_client.dart';
 import 'package:dart_demo_backend/models/user.dart';
 import 'package:shelf/shelf.dart';
 
@@ -9,10 +9,10 @@ Future<Response> login(Request request) async {
   String bodyString = await request.readAsString();
   Map<String, dynamic> body = jsonDecode(bodyString);
 
-  String username = body["username"];
+  String email = body["email"];
   String password = body["password"];
 
-  User? user = await DatabaseClient.provider.findUserByUsername(username);
+  User? user = await DatabaseClient.provider.findUserByEmail(email);
 
   if (user == null) {
     return Response.badRequest(
@@ -32,7 +32,7 @@ Future<Response> login(Request request) async {
     jsonEncode({ 
       "id": user.id,
       "name": user.name,
-      "username": user.username
+      "email": user.email
     }),
     headers: { 'content-type': 'application/json' },
   );
@@ -43,10 +43,10 @@ Future<Response> signup(Request request) async {
   Map<String, dynamic> body = jsonDecode(bodyString);
 
   String name = body["name"];
-  String username = body["username"];
+  String email = body["email"];
   String password = body["password"];
 
-  User? user = await DatabaseClient.provider.findUserByUsername(username);
+  User? user = await DatabaseClient.provider.findUserByEmail(email);
 
   if (user != null) {
     return Response.badRequest(
@@ -59,7 +59,7 @@ Future<Response> signup(Request request) async {
 
   await DatabaseClient.provider.addUser(
     name: name, 
-    username: username, 
+    email: email, 
     password: hashedPassword,
   );
 
