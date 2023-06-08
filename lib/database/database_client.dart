@@ -12,7 +12,7 @@ class DatabaseClient {
   Future<Db> get database async {
     if (_db != null) return _db!;
 
-    _db = await Db.create("mongodb+srv://dev:wGiPqFExc7YgvWjm@cluster0.eo9cj8s.mongodb.net/test?retryWrites=true&w=majority");
+    _db = await Db.create("----Database Connection URL----");
     await _db!.open();
     return _db!;
   }
